@@ -5,7 +5,7 @@ node {
            sh "${M2_Home}/bin/mvn install"
         }
         stage('audit_service') {
-            sh 'docker build -f Dockerfile .'
+            sh 'docker build -t idexcel-interns/vikas-audit_service:${BUILD_NUMBER}  -f Dockerfile .'
             sh 'docker tag idexcel-interns/vikas-audit_service:${BUILD_NUMBER} idexcelinterns/vikas-audit_service:latest' 
             }
          stage('Push Image') { 
