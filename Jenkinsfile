@@ -13,6 +13,6 @@ node {
                 sh 'docker push idexcelinterns/vikas-audit_service:latest' 
         } 
         stage('Force Deploy') { 
-                sh 'aws cloudformation update-stack --stack-name MicroserviceProject --template-body file:///Users/vikasdoddi/Documents/MicroServices/stack.yaml' 
+                sh 'aws ecs update-service --region us-east-1 --cluster Vikas-ecs-cluster --service service_audit --force-new-deployment' 
         } 
   }
