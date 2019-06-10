@@ -7,10 +7,8 @@ node {
         stage('audit_service') {
             sh 'docker build -f Dockerfile .'
             }
-        stage 'Docker push'
-            docker.withRegistry('https://012515449968.dkr.ecr.us-east-1.amazonaws.com', '$(aws ecr get-login --no-include-email --region us-east-1)') {
-            docker.image('audit_service').push('latest')
+         stage('Push Image') { 
+                sh 'docker login -u idexcelinterns -p kutty170065' 
+                sh 'docker push idexcelinterns/audit-service:latest' 
+        } 
   }
-
-
-}
