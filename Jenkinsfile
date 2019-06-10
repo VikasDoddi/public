@@ -7,4 +7,10 @@ node {
         stage('audit_service') {
             sh 'docker build -f Dockerfile .'
             }
+        stage 'Docker push'
+            docker.withRegistry('https://012515449968.dkr.ecr.us-east-1.amazonaws.com', 'ecr.us-east-1.amazonaws.com/vikas-microservices:latests') {
+            docker.image('audit_service').push('latest')
+  }
+
+
 }
