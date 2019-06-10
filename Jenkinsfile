@@ -8,8 +8,11 @@ node {
             sh 'docker build -t idexcel-interns/vikas-audit_service:${BUILD_NUMBER}  -f Dockerfile .'
             sh 'docker tag idexcel-interns/vikas-audit_service:${BUILD_NUMBER} idexcelinterns/vikas-audit_service:latest' 
             }
-         stage('Push Image') { 
+        stage('Push Image') { 
                 sh 'docker login -u idexcelinterns -p kutty170065' 
                 sh 'docker push idexcelinterns/vikas-audit_service:latest' 
+        } 
+        stage('Force Deploy') { 
+                sh 'aws cloudformation update-stack --stack-name MicroserviceProject --template-body file:///Users/vikasdoddi/Documents/MicroServices/stack.yaml' 
         } 
   }
