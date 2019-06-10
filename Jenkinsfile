@@ -6,9 +6,10 @@ node {
         }
         stage('audit_service') {
             sh 'docker build -f Dockerfile .'
+            sh 'docker tag audit-service:latest'
             }
          stage('Push Image') { 
                 sh 'docker login -u idexcelinterns -p kutty170065' 
-                sh 'docker push idexcelinterns/audit-service:latest' 
+                sh 'docker push audit-service:latest' 
         } 
   }
