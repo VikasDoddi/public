@@ -1,11 +1,17 @@
 node {
-        checkout scm
+         checkout scm
         stage('Build') {
-           sh 'mvn install'
+            steps {
+            dir ('audit-service')
+                sh 'mvn clean install'
+        }
         }
         stage('audit_service') {
+            steps {
+            dir ('audit-service')
             sh 'docker build -f Dockerfile'
             }
+        }
 }
 
 
