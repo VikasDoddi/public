@@ -5,6 +5,6 @@ node {
            sh "${M2_Home}/bin/mvn install"
         }
         stage('audit_service') {
-            sh 'docker build -f Dockerfile'
+            sh 'docker build -f Dockerfile .'
             }
 }
