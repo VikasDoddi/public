@@ -1,7 +1,5 @@
 node {
-     {
-         checkout scm
-     }
+        checkout scm
         stage('Build') {
            sh 'mvn install'
         }
