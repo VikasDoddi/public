@@ -6,9 +6,10 @@ node {
         }
         stage('audit_service') {
             sh 'docker build -f Dockerfile .'
+            sh 'docker tag idexcel-interns/vikas-audit_service:${BUILD_NUMBER} idexcelinterns/vikas-audit_service:latest' 
             }
          stage('Push Image') { 
                 sh 'docker login -u idexcelinterns -p kutty170065' 
-                sh 'docker push audit_service' 
+                sh 'docker push idexcelinterns/vikas-audit_service:latest' 
         } 
   }
