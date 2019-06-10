@@ -8,7 +8,7 @@ node {
             sh 'docker build -f Dockerfile .'
             }
         stage 'Docker push'
-            docker.withRegistry('https://012515449968.dkr.ecr.us-east-1.amazonaws.com', 'ecr.us-east-1.amazonaws.com/vikas-microservices:latests') {
+            docker.withRegistry('https://012515449968.dkr.ecr.us-east-1.amazonaws.com', '$(aws ecr get-login --no-include-email --region us-east-1)') {
             docker.image('audit_service').push('latest')
   }
 
