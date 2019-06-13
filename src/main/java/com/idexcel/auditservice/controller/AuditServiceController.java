@@ -11,6 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.idexcel.auditservice.entity.Audit;
 import com.idexcel.auditservice.entity.MongoInfo;
+import com.amazonaws.auth.AWSCredentialsProvider;                                                                   
+import com.amazonaws.auth.InstanceProfileCredentialsProvider;
+import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagement;
+import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagementClientBuilder;
+
+import com.amazonaws.services.simplesystemsmanagement.model.GetParameterRequest;
+import com.amazonaws.services.simplesystemsmanagement.model.GetParameterResult;
 
 @RestController
 @RequestMapping("/praveen")
@@ -22,8 +29,12 @@ public class AuditServiceController {
 	@GetMapping("/audits")
 	public List<Audit> getAudits() {
 		List<Audit> audits = new ArrayList<Audit>();
-		Audit audit1 = new Audit("/vikas2/lenders", "GET", 200);
-		Audit audit2 = new Audit("/praveen/lenders", "POST", 201);
+		String env = System.getenv("ENVIRONMENT");
+		if (env == null) {
+			env = "dev";
+		}
+		Audit audit1 = new Audit("/praveen-" + env + "/lenders", "GET", 200);
+		Audit audit2 = new Audit("/praveen-" + env + "/lenders", "POST", 201);
 		audits.add(audit1);
 		audits.add(audit2);
 		return audits;
@@ -31,6 +42,19 @@ public class AuditServiceController {
 	
 	@GetMapping("/mongo")
 	public MongoInfo getMongoInfo() {
-		return new MongoInfo(env.getProperty("mongodb.host"), env.getProperty("mongodb.port"), env.getProperty("mongodb.database"));
+		return new MongoInfo(
+				getParameterFromSSMByName(System.getenv("ENVIRONMENT") + "/vikasApp/mongoHost"), 
+				getParameterFromSSMByName(System.getenv("ENVIRONMENT") + "/vikasApp/mongoUsername"), 
+				getParameterFromSSMByName(System.getenv("ENVIRONMENT") + "/vikasApp/mongoPassword"));
 	}
+	private String getParameterFromSSMByName(String parameterKey) {
+    		AWSCredentialsProvider credentials = InstanceProfileCredentialsProvider.getInstance();
+        AWSSimpleSystemsManagement simpleSystemsManagementClient = 
+        		(AWSSimpleSystemsManagement)((AWSSimpleSystemsManagementClientBuilder)((AWSSimpleSystemsManagementClientBuilder)AWSSimpleSystemsManagementClientBuilder.standard().withCredentials(credentials)).withRegion("us-east-1")).build();
+
+        GetParameterRequest parameterRequest = new GetParameterRequest();
+        parameterRequest.withName(parameterKey).setWithDecryption(Boolean.valueOf(true));
+        GetParameterResult parameterResult = simpleSystemsManagementClient.getParameter(parameterRequest);
+        return parameterResult.getParameter().getValue();
+    }
 }
