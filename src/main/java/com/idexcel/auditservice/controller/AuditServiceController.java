@@ -42,7 +42,7 @@ public class AuditServiceController {
 	
 	@GetMapping("/mongo")
 	public MongoInfo getMongoInfo() {
-		System.out.println("Environment=" + System.getenv("ENVIRONMENT") )
+		System.out.println("Environment=" + System.getenv("ENVIRONMENT") );
 		return new MongoInfo(
 				getParameterFromSSMByName("/" + System.getenv("ENVIRONMENT") + "/vikasApp/mongoHost"), 
 				getParameterFromSSMByName("/" + System.getenv("ENVIRONMENT") + "/vikasApp/mongoUsername"), 
