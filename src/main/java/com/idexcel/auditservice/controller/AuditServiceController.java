@@ -22,7 +22,7 @@ public class AuditServiceController {
 	@GetMapping("/audits")
 	public List<Audit> getAudits() {
 		List<Audit> audits = new ArrayList<Audit>();
-		Audit audit1 = new Audit("/vikas/lenders", "GET", 200);
+		Audit audit1 = new Audit("/vikas2/lenders", "GET", 200);
 		Audit audit2 = new Audit("/praveen/lenders", "POST", 201);
 		audits.add(audit1);
 		audits.add(audit2);
