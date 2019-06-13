@@ -42,10 +42,11 @@ public class AuditServiceController {
 	
 	@GetMapping("/mongo")
 	public MongoInfo getMongoInfo() {
+		System.out.println("Environment=" + System.getenv("ENVIRONMENT") )
 		return new MongoInfo(
-				getParameterFromSSMByName(System.getenv("ENVIRONMENT") + "/vikasApp/mongoHost"), 
-				getParameterFromSSMByName(System.getenv("ENVIRONMENT") + "/vikasApp/mongoUsername"), 
-				getParameterFromSSMByName(System.getenv("ENVIRONMENT") + "/vikasApp/mongoPassword"));
+				getParameterFromSSMByName("/" + System.getenv("ENVIRONMENT") + "/vikasApp/mongoHost"), 
+				getParameterFromSSMByName("/" + System.getenv("ENVIRONMENT") + "/vikasApp/mongoUsername"), 
+				getParameterFromSSMByName("/" + System.getenv("ENVIRONMENT") + "/vikasApp/mongoPassword"));
 	}
 	private String getParameterFromSSMByName(String parameterKey) {
     		AWSCredentialsProvider credentials = InstanceProfileCredentialsProvider.getInstance();
