@@ -14,10 +14,10 @@ node {
         } 
   
         stage('Stack Action'){
-            sh 'aws --region us-east-1 cloudformation ${Action}-stack --stack-name ${EnvironmentType}-${Stack} --cluster Vikas-ecs-cluster --service service_audit --force-new-deployment'
+            sh 'aws --region us-east-1 cloudformation ${Action}-stack --stack-name ${Stack} --cluster Vikas-ecs-cluster --service service_audit --force-new-deployment'
        }
      
         stage('Stack Status'){
             sh 'aws --region us-east-1 cloudformation wait stack-${Action}-complete --stack-name ${EnvironmentType}-${Stack}'
    }
- }
+}
