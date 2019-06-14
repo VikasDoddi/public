@@ -35,6 +35,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+                <dependency>
+    			<groupId>com.amazonaws</groupId>
+    			<artifactId>aws-java-sdk-ssm</artifactId>
+    			<version>1.11.170</version>
+		</dependency>
 	</dependencies>
 
 	<build>
