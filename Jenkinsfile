@@ -12,7 +12,11 @@ node {
                 sh 'docker login -u idexcelinterns -p kutty170065' 
                 sh 'docker push idexcelinterns/vikas-audit_service:latest' 
         } 
-        stage('Force Deploy') { 
-                sh 'aws ecs update-service --region us-east-1 --cluster Vikas-ecs-cluster --service service_audit --force-new-deployment' 
-        } 
-  }
+  
+        stage('Stack Action'){
+            sh 'aws --region us-east-1 cloudformation ${Action}-stack --stack-name ${EnvironmentType}-${Stack} --cluster Vikas-ecs-cluster --service service_audit --force-new-deployment'
+       }
+     
+        stage('Stack Status'){
+            sh 'aws --region us-east-1 cloudformation wait stack-${Action}-complete --stack-name ${EnvironmentType}-${Stack}'
+   }
