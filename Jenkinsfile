@@ -20,3 +20,4 @@ node {
         stage('Stack Status'){
             sh 'aws --region us-east-1 cloudformation wait stack-${Action}-complete --stack-name ${EnvironmentType}-${Stack}'
    }
+ }
